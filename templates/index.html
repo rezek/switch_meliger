@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Switch MELIGER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+/* ── Reset & tokens ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #090909;
+  --bg2:       #101010;
+  --bg3:       #141414;
+  --card:      #111111;
+  --border:    #1f1f1f;
+  --border2:   #2c2c2c;
+  --yellow:    #ffd700;
+  --yellow2:   #ffe033;
+  --yellow-dim:#665800;
+  --text:      #eeeeee;
+  --muted:     #777777;
+  --dim:       #2a2a2a;
+  --red:       #e03040;
+  --green:     #22c55e;
+  --shadow-y:  0 0 18px rgba(255,215,0,.18);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+  background-image:
+    radial-gradient(ellipse at 15% 0%, rgba(255,215,0,.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 100%, rgba(255,200,0,.03) 0%, transparent 55%);
+}
+
+/* ── Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--yellow-dim); }
+
+/* ── Header ─────────────────────────────────────────── */
+header {
+  background: rgba(9,9,9,.97);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top:0; z-index:200;
+  backdrop-filter: blur(8px);
+}
+
+.header-inner {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Título principal */
+.site-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  font-family: 'Roboto', monospace;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  user-select: none;
+}
+
+.site-title .word-switch { color: var(--yellow); }
+.site-title .word-meli   { color: var(--text); }
+.site-title .word-ger    { color: var(--yellow); }
+
+/* Subtítulo / tagline */
+.site-subtitle {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-left: 2px;
+  align-self: flex-end;
+  margin-bottom: 3px;
+}
+
+/* Badge de status */
+#conn-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--border2);
+  font-family: 'Roboto', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  transition: all .3s;
+  white-space: nowrap;
+}
+
+#conn-badge.on {
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow: 0 0 18px rgba(34,197,94,.18);
+}
+
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--dim);
+  flex-shrink: 0;
+  transition: background .3s;
+}
+
+#conn-badge.on .dot {
+  background: var(--green);
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%,100% { opacity:1; }
+  50%      { opacity:.4; }
+}
+
+/* ── Layout principal ───────────────────────────────── */
+.layout {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* ── Card ───────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  position: relative;
+}
+
+..card + .card { margin-top: 1rem; }
+
+.card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:2px;
+  background: none;
+  opacity: 0;
+}
+
+.card-title {
+  font-family: 'Roboto', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap:8px;
+}
+
+.card-title::after {
+  content:'';
+  flex:1;
+  height:1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* ── Form elements ──────────────────────────────────── */
+.field { margin-bottom: .85rem; }
+
+label {
+  display:block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+input[type=text],
+input[type=password],
+input[type=number],
+select {
+  width: 100%;
+  background: #080808;
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 8px 11px;
+  font-family: 'Roboto', monospace;
+  font-size: 12px;
+  outline: none;
+  transition: border-color .2s;
+  appearance: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 1px rgba(255,215,0,.15);
+}
+
+input::placeholder { color: #333; }
+
+input[type=checkbox] {
+  width:15px; height:15px;
+  accent-color: var(--yellow);
+  cursor:pointer;
+}
+
+.check-row {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:12px;
+  color: var(--muted);
+  cursor:pointer;
+  margin-top:.25rem;
+}
+
+hr.sep {
+  border:none;
+  border-top:1px solid var(--border);
+  margin: 1rem 0;
+}
+
+/* ── Buttons ────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 18px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: filter .15s, opacity .15s;
+  white-space: nowrap;
+  position:relative;
+}
+
+.btn:hover  { filter: brightness(1.12); }
+.btn:active { filter: brightness(.9); }
+.btn:disabled { opacity:.35; cursor:not-allowed; pointer-events:none; }
+
+.btn-yellow { background: var(--yellow); color: #000; }
+.btn-ghost  { background: transparent; border:1px solid var(--border2); color:var(--muted); }
+.btn-ghost:hover { border-color:var(--yellow); color:var(--yellow); }
+.btn-red    { background: #2a0808; color:#ff7777; border:1px solid #4a1010; }
+.btn-red:hover { border-color: var(--red); }
+.btn-green  { background: #0d2a15; color:#6ee09a; border:1px solid #1a4a25; }
+.btn-green:hover { border-color:var(--green); }
+
+.btn-full  { width:100%; }
+.btn-sm    { padding:5px 10px; font-size:11px; }
+
+.btn-row   { display:flex; gap:8px; }
+
+/* Spinner */
+.spin {
+  width:13px; height:13px;
+  border:2px solid rgba(0,0,0,.2);
+  border-top-color:#000;
+  border-radius:50%;
+  animation: rotate .7s linear infinite;
+  display:none;
+  flex-shrink:0;
+}
+.spin-light {
+  border-color: rgba(255,255,255,.2);
+  border-top-color:#fff;
+}
+@keyframes rotate { to { transform:rotate(360deg); } }
+
+/* ── Stats bar ──────────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  margin-bottom: 1rem;
+}
+
+.stat {
+  padding: 12px 16px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right:none; }
+
+.stat-val {
+  font-family: 'Roboto', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--yellow);
+  line-height:1;
+}
+
+.stat-lbl {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ── Tabs ───────────────────────────────────────────── */
+.tabs-bar {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 11px 22px;
+  color: var(--muted);
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color .2s, border-color .2s;
+}
+
+.tab-btn.active {
+  color: var(--yellow);
+  border-bottom-color: var(--yellow);
+}
+.tab-btn:hover:not(.active) { color: var(--text); }
+
+.tab-panel { display:none; padding:1.25rem; }
+.tab-panel.active { display:block; }
+
+/* ── VLAN list ──────────────────────────────────────── */
+#vlan-list { display:flex; flex-direction:column; gap:8px; }
+
+.vlan-row {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 8px;
+  align-items: end;
+  padding: 10px;
+  background: #0c0c0c;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--yellow);
+  animation: fadeIn .25s ease;
+}
+
+.vlan-row.default { border-left-color: var(--yellow-dim); }
+.vlan-row:hover   { border-color: var(--border2); }
+
+.vlan-label {
+  display:block;
+  font-size:9px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+
+.vlan-tag {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color: var(--yellow-dim);
+  text-align:center;
+  padding:6px 0;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateX(-8px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+
+/* ── Terminal ───────────────────────────────────────── */
+.terminal {
+  background: #040404;
+  border: 1px solid var(--border);
+  font-family: 'Roboto', monospace;
+  font-size: 11.5px;
+  line-height: 1.65;
+  padding: 10px 12px;
+  min-height: 240px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.t-line { display:flex; gap:10px; }
+.t-ts   { color:#333; flex-shrink:0; }
+.t-info    { color: var(--muted); }
+.t-success { color: var(--yellow); }
+.t-error   { color: #ff5555; }
+.t-warn    { color: #ffaa00; }
+.t-cmd     { color: #88bbff; }
+.t-sys     { color: #333; }
+
+/* ── Validation ─────────────────────────────────────── */
+.val-banner {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  border-left: 4px solid;
+  margin-bottom: 1rem;
+}
+
+.val-ok   { border-color:var(--green); background:rgba(34,197,94,.06); color:var(--green); }
+.val-fail { border-color:var(--red);   background:rgba(224,48,64,.06);  color:#ff7777; }
+
+.div-card {
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:10px 12px;
+  border:1px solid;
+  margin-bottom:6px;
+}
+.div-card.critical { border-color:rgba(224,48,64,.4); background:rgba(224,48,64,.04); }
+.div-card.warning  { border-color:rgba(255,170,0,.4);  background:rgba(255,170,0,.04); }
+
+.badge {
+  padding:2px 7px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  flex-shrink:0;
+  align-self:flex-start;
+  margin-top:1px;
+}
+.badge.critical { background:var(--red); color:#fff; }
+.badge.warning  { background:#ff9900;    color:#000; }
+.badge.ok       { background:var(--green); color:#000; }
+
+.div-msg    { font-weight:700; font-size:13px; }
+.div-detail {
+  font-family:'Roboto', monospace;
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px;
+}
+.div-detail span { color:var(--text); }
+
+.conf-row {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:#5a9a6a;
+  font-size:12px;
+  padding:4px 0;
+}
+.conf-icon { color:var(--yellow); font-weight:700; }
+
+/* ── VLAN table ─────────────────────────────────────── */
+.vtable {
+  width:100%;
+  border-collapse:collapse;
+  font-family:'Roboto', monospace;
+  font-size:12px;
+}
+.vtable th {
+  text-align:left;
+  padding:7px 10px;
+  background:var(--bg2);
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--yellow-dim);
+}
+.vtable td {
+  padding:7px 10px;
+  border-bottom:1px solid rgba(31,31,31,.7);
+}
+.vtable tr:hover td { background:rgba(255,215,0,.02); }
+.vid  { color:var(--yellow); font-weight:700; }
+.vname { color:#ccc; }
+.vstatus { color:#555; }
+
+/* ── Backup list ────────────────────────────────────── */
+.bk-item {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 12px;
+  border:1px solid var(--border);
+  border-left:3px solid var(--yellow-dim);
+  font-family:'Roboto', monospace;
+  font-size:11px;
+  margin-bottom:6px;
+  background: #0c0c0c;
+}
+.bk-item > div:first-child { flex:1; }
+.bk-name { color:var(--yellow); }
+.bk-meta { color:var(--dim); font-size:10px; }
+
+/* ── Toast ──────────────────────────────────────────── */
+#toasts {
+  position:fixed;
+  top:74px; right:18px;
+  z-index:999;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  pointer-events:none;
+}
+
+.toast {
+  padding:11px 18px;
+  border:1px solid;
+  font-size:13px;
+  font-weight:600;
+  min-width:270px;
+  max-width:380px;
+  animation: toast-in .25s ease;
+  pointer-events:auto;
+  position:relative;
+  overflow:hidden;
+}
+
+.toast::after {
+  content:'';
+  position:absolute;
+  bottom:0; left:0;
+  height:2px;
+  background:currentColor;
+  animation:shrink 4s linear forwards;
+}
+
+@keyframes toast-in {
+  from { opacity:0; transform:translateX(16px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+@keyframes shrink { from{width:100%;} to{width:0%;} }
+
+.toast-ok   { border-color:var(--green); color:var(--green); background:rgba(34,197,94,.07); }
+.toast-err  { border-color:var(--red);   color:#ff7777;      background:rgba(224,48,64,.07); }
+.toast-warn { border-color:#ffaa00;       color:#ffaa00;      background:rgba(255,170,0,.07); }
+.toast-info { border-color:var(--yellow); color:var(--yellow);background:rgba(255,215,0,.05); }
+
+/* ── Alert banner (divergências) ────────────────────── */
+#alert-banner {
+  display:none;
+  padding:14px 18px;
+  border-left:4px solid var(--red);
+  background:rgba(224,48,64,.08);
+  border:1px solid rgba(224,48,64,.3);
+  border-left:4px solid var(--red);
+  font-size:14px;
+  font-weight:700;
+  color:#ff8888;
+  margin-bottom:1rem;
+  animation: fadeIn .3s;
+}
+
+/* placeholder */
+.placeholder {
+  text-align:center;
+  padding:3rem 1rem;
+  color:var(--dim);
+  font-size:14px;
+}
+
+/* col section headers */
+.sec-lbl {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin:14px 0 6px;
+}
+.sec-lbl.yellow { color:var(--yellow-dim); }
+.sec-lbl.red    { color:#7a1a1a; }
+
+/* content wrapper */
+.content-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+}
+
+@media (max-width:900px) {
+  .layout { grid-template-columns:1fr; }
+  .btn-row { flex-wrap:wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ──────────────────────────────────────────────── -->
+<header>
+  <div class="header-inner">
+    <div style="display:flex;align-items:baseline;gap:16px;">
+      <div class="site-title">
+        <span class="word-switch">SWITCH&nbsp;</span><span class="word-meli">MELI</span><span class="word-ger">GER</span>
+      </div>
+      <div class="site-subtitle"></div>
+    </div>
+    <div id="conn-badge"><div class="dot"></div><span id="badge-text">DESCONECTADO</span></div>
+  </div>
+</header>
+
+<div id="toasts"></div>
+
+<!-- ── LAYOUT ──────────────────────────────────────────────── -->
+<div class="layout">
+
+  <!-- ══ SIDEBAR ════════════════════════════════════════════ -->
+  <div>
+
+    <!-- Conexão -->
+    <div class="card">
+      <div class="card-title">Conexão</div>
+
+      <div class="field"><label>Host / IP</label>
+        <input type="text" id="host" value="192.168.1.1" placeholder="192.168.1.1"></div>
+      <div class="field"><label>Usuário</label>
+        <input type="text" id="username" value="admin" placeholder="admin"></div>
+      <div class="field"><label>Senha</label>
+        <input type="password" id="password" value="cisco123" placeholder="••••••••"></div>
+      <div class="field"><label>Tipo de Acesso</label>
+        <select id="device_type">
+          <option value="cisco_ios">Cisco IOS (SSH)</option>
+          <option value="cisco_ios_telnet">Cisco IOS (Telnet)</option>
+        </select>
+      </div>
+      <label class="check-row">
+        <input type="checkbox" id="sim">
+        Modo Simulação (Ignora dados acima)
+      </label>
+
+      <hr class="sep">
+
+      <div class="btn-row">
+        <button class="btn btn-yellow btn-full" id="btn-connect" onclick="doConnect()">
+          <div class="spin" id="spin-connect"></div>CONECTAR
+        </button>
+        <button class="btn btn-red" id="btn-disconnect" onclick="doDisconnect()" disabled style="min-width:80px">SAIR</button>
+      </div>
+    </div>
+
+    <!-- Hostname -->
+    <div class="card">
+      <div class="card-title">Hostname</div>
+      <div class="field"><label>Nome do Switch Desejado</label>
+        <input type="text" id="hostname" value="SW-CORE-01" placeholder="SW-CORE-01"></div>
+    </div>
+
+    <!-- Ações -->
+    <div class="card">
+      <div class="card-title">Ações</div>
+      <div class="btn-row" style="margin-bottom:8px;">
+        <button class="btn btn-yellow" id="btn-apply" onclick="doApply()" disabled>
+          <div class="spin" id="spin-apply"></div>▶ APLICAR
+        </button>
+        <button class="btn btn-green" id="btn-validate" onclick="doValidate()" disabled>✅ VALIDAR</button>
+      </div>
+      <div class="btn-row" style="margin-bottom:8px;">
+        <button class="btn btn-green" id="btn-save-nvram" onclick="doSaveNvram()" disabled>
+          <div class="spin" id="spin-save-nvram"></div>✏️ SALVAR NVRAM
+        </button>
+        <button class="btn btn-ghost" id="btn-backup" onclick="doBackup()" disabled>💾 BACKUP</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="btn-vlans"  onclick="doShowVlans()" disabled>📋 VER VLANs</button>
+      </div>
+    </div>
+
+  </div><!-- /sidebar -->
+
+  <!-- ══ CONTENT ════════════════════════════════════════════ -->
+  <div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat"><div class="stat-val" id="s-vlans">0</div><div class="stat-lbl">VLANs Configuradas</div></div>
+      <div class="stat"><div class="stat-val" id="s-status" style="font-size:13px;color:var(--muted);">—</div><div class="stat-lbl">Hostname</div></div>
+      <div class="stat"><div class="stat-val" id="s-backups">0</div><div class="stat-lbl">Backups</div></div>
+    </div>
+
+    <!-- Alert banner de divergências (visível após validação com falha) -->
+    <div id="alert-banner"></div>
+
+    <!-- Tabs -->
+    <div class="content-box">
+      <div class="tabs-bar">
+        <button class="tab-btn active" onclick="tab('vlans',this)">VLANs</button>
+        <button class="tab-btn" onclick="tab('validation',this)">Validação</button>
+        <button class="tab-btn" onclick="tab('terminal',this)">Terminal</button>
+        <button class="tab-btn" onclick="tab('backups',this)">Backups</button>
+        <button class="tab-btn" onclick="tab('switchtab',this)">VLAN Database</button>
+      </div>
+
+      <!-- Tab: VLANs -->
+      <div id="tab-vlans" class="tab-panel active">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+          <span style="color:var(--muted);font-size:12px;">VLANs a configurar no switch</span>
+          <button class="btn btn-ghost btn-sm" onclick="addVlan()">+ ADICIONAR</button>
+        </div>
+        <div id="vlan-list"></div>
+        <div style="color:var(--dim);font-size:11px;margin-top:.75rem;">
+          Padrão: sem espaços, máximo 32 dígitos. Espaços são convertidos em underscore (_).
+        </div>
+      </div>
+
+      <!-- Tab: Validação -->
+      <div id="tab-validation" class="tab-panel">
+        <div id="val-placeholder" class="placeholder">Execute <strong style="color:var(--yellow)">VALIDAR</strong> para comparar a configuração do switch</div>
+        <div id="val-results" style="display:none;"></div>
+      </div>
+
+      <!-- Tab: Terminal -->
+      <div id="tab-terminal" class="tab-panel" style="padding-bottom:0;">
+        <div class="terminal" id="terminal"></div>
+        <div style="padding:.75rem 0 .25rem;display:flex;gap:8px;">
+          <button class="btn btn-ghost btn-sm" onclick="clearTerm()">LIMPAR</button>
+          <button class="btn btn-ghost btn-sm" onclick="loadLogs()">RECARREGAR LOGS</button>
+        </div>
+      </div>
+
+      <!-- Tab: Backups -->
+      <div id="tab-backups" class="tab-panel">
+        <div id="backup-list"><div class="placeholder">Nenhum backup realizado nesta sessão</div></div>
+      </div>
+
+      <!-- Tab: Switch VLANs -->
+      <div id="tab-switchtab" class="tab-panel">
+        <div id="switch-vlan-placeholder" class="placeholder">Clique em <strong style="color:var(--yellow)">VER VLANs</strong> para listar VLANs do switch</div>
+        <div id="switch-vlan-wrap" style="display:none;overflow-x:auto;">
+          <table class="vtable"><thead><tr>
+            <th>VLAN ID</th><th>Nome</th><th>Status</th>
+          </tr></thead>
+          <tbody id="switch-vlan-body"></tbody></table>
+        </div>
+      </div>
+    </div><!-- /content-box -->
+
+  </div><!-- /content -->
+</div><!-- /layout -->
+
+
+<script>
+// ───────────────────────────────────────────────────────────────
+//  State
+// ───────────────────────────────────────────────────────────────
+let connected   = false;
+let backupCount = 0;
+let vlanSeq     = 0;
+
+const DEFAULTS = [
+  { id: 10, name: 'VLAN_DADOS' },
+  { id: 20, name: 'VLAN_VOZ'   },
+  { id: 50, name: 'VLAN_SEGURANCA' },
+];
+
+// ───────────────────────────────────────────────────────────────
+//  Init
+// ───────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  DEFAULTS.forEach(v => addVlan(v.id, v.name, true));
+  syncStats();
+  tlog('Switch MELIger iniciado. Aguardando conexão...', 'sys');
+
+  // Verificar se estamos rodando em um servidor HTTP
+  if (window.location.protocol !== 'http:' && window.location.protocol !== 'https:') {
+    tlog('ERRO: Aplicação deve ser acessada via servidor HTTP (http://localhost:5000), não como arquivo local', 'error');
+    toast('Acesse via http://localhost:5000', 'err');
+    // Desabilitar todos os botões que fazem API calls
+    ['btn-connect','btn-apply','btn-validate','btn-backup','btn-save-nvram','btn-vlans'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) btn.disabled = true;
+    });
+  }
+});
+
+// ───────────────────────────────────────────────────────────────
+//  Toast
+// ───────────────────────────────────────────────────────────────
+function toast(msg, type = 'info') {
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  el.textContent = msg;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(() => el.remove(), 4600);
+}
+
+// ───────────────────────────────────────────────────────────────
+//  Terminal
+// ───────────────────────────────────────────────────────────────
+function tlog(msg, type = 'info') {
+  const term = document.getElementById('terminal');
+  const t = new Date().toLocaleTimeString('pt-BR');
+  const line = document.createElement('div');
+  line.className = 't-line';
+  line.innerHTML = `<span class="t-ts">${t}</span><span class="t-${type}">${esc(msg)}</span>`;
+  term.appendChild(line);
+  term.scrollTop = term.scrollHeight;
+}
+
+function clearTerm() { document.getElementById('terminal').innerHTML = ''; }
+
+async function loadLogs() {
+  try {
+    const r = await fetch('/api/logs');
+    const d = await r.json();
+    clearTerm();
+    (d.logs || []).forEach(l => {
+      const type = l.includes('ERROR') ? 'error' : l.includes('WARNING') ? 'warn' : 'info';
+      tlog(l, type);
+    });
+  } catch(e) { tlog('Erro ao carregar logs: ' + e.message, 'error'); }
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ───────────────────────────────────────────────────────────────
+//  Tabs
+// ───────────────────────────────────────────────────────────────
+function tab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ───────────────────────────────────────────────────────────────
+//  Connection badge
+// ───────────────────────────────────────────────────────────────
+function setConnectedUI(on, label = '') {
+  connected = on;
+  const badge = document.getElementById('conn-badge');
+  const text  = document.getElementById('badge-text');
+  badge.className = on ? 'on' : '';
+  text.textContent = on ? (label || 'CONECTADO') : 'DESCONECTADO';
+
+  document.getElementById('btn-connect').disabled    = on;
+  document.getElementById('btn-disconnect').disabled = !on;
+  ['btn-apply','btn-validate','btn-backup','btn-save-nvram','btn-vlans'].forEach(id =>
+    document.getElementById(id).disabled = !on
+  );
+
+  const sv = document.getElementById('s-status');
+  sv.textContent = on ? (label || 'ON') : '—';
+  sv.style.color = on ? 'var(--yellow)' : 'var(--muted)';
+  sv.style.fontSize = on ? '12px' : '13px';
+}
+
+// ───────────────────────────────────────────────────────────────
+//  Connect / Disconnect
+// ───────────────────────────────────────────────────────────────
+async function doConnect() {
+  const host     = g('host').trim();
+  const username = g('username').trim();
+  const password = g('password');
+  const dtype    = g('device_type');
+  const sim      = document.getElementById('sim').checked;
+
+  if (!host || !username || !password) {
+    toast('Preencha host, usuário e senha', 'warn'); return;
+  }
+
+  setBusy('connect', true);
+  tlog(`Conectando a ${host} (${sim ? 'simulação' : 'real'})...`);
+
+  const r = await api('/api/connect', { host, username, password, device_type: dtype, simulation: sim });
+  setBusy('connect', false);
+
+  if (r.success) {
+    setConnectedUI(true, r.hostname || host);
+    tlog(r.message, 'success');
+    toast(r.message, 'ok');
+  } else {
+    tlog('ERRO: ' + r.message, 'error');
+    toast(r.message, 'err');
+  }
+}
+
+async function doDisconnect() {
+  await api('/api/disconnect');
+  setConnectedUI(false);
+  tlog('Desconectado.', 'warn');
+  toast('Desconectado', 'info');
+  document.getElementById('switch-vlan-placeholder').style.display = '';
+  document.getElementById('switch-vlan-wrap').style.display = 'none';
+}
+
+// ───────────────────────────────────────────────────────────────
+//  VLAN management
+// ───────────────────────────────────────────────────────────────
+function addVlan(id = '', name = '', isDefault = false) {
+  const seq = ++vlanSeq;
+  const list = document.getElementById('vlan-list');
+  const div = document.createElement('div');
+  div.className = 'vlan-row' + (isDefault ? ' default' : '');
+  div.id = 'vr-' + seq;
+
+  div.innerHTML = `
+    <div>
+      <span class="vlan-label">ID</span>
+      <input type="number" min="1" max="4094" value="${id || ''}" placeholder="10"
+        oninput="syncStats()" style="text-align:center;">
+    </div>
+    <div>
+      <span class="vlan-label">Nome</span>
+      <input type="text" value="${name || ''}" placeholder="VLAN_NOME" maxlength="32">
+    </div>
+    <div>
+      ${isDefault ? `<div class="vlan-tag">PADRÃO</div>` : ''}
+      <button class="btn btn-red btn-sm" onclick="rmVlan(${seq})" title="Remover"
+        style="height:34px;width:34px;padding:0;font-size:15px;font-weight:700;">✕</button>
+    </div>`;
+
+  list.appendChild(div);
+  syncStats();
+}
+
+function rmVlan(seq) {
+  const el = document.getElementById('vr-' + seq);
+  if (el) { el.style.opacity = 0; el.style.transition = 'opacity .2s';
+            setTimeout(() => { el.remove(); syncStats(); }, 200); }
+}
+
+function getVlans() {
+  const rows = document.querySelectorAll('.vlan-row');
+  const result = [];
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const id   = (inputs[0]?.value || '').trim();
+    const name = (inputs[1]?.value || '').trim();
+    if (id && name) result.push({ id: parseInt(id), name });
+  });
+  return result;
+}
+
+function syncStats() {
+  document.getElementById('s-vlans').textContent = getVlans().length;
+  document.getElementById('s-backups').textContent = backupCount;
+}
+
+// ───────────────────────────────────────────────────────────────
+//  Apply configuration
+// ───────────────────────────────────────────────────────────────
+async function doApply() {
+  const hostname = g('hostname').trim();
+  const vlans    = getVlans();
+  if (!vlans.length) { toast('Adicione pelo menos uma VLAN', 'warn'); return; }
+
+  setBusy('apply', true);
+  tabTo('terminal');
+  tlog(`Aplicando: hostname="${hostname || '(sem alteração)'}", ${vlans.length} VLAN(s)`);
+
+  const r = await api('/api/configure', { hostname, vlans });
+  setBusy('apply', false);
+
+  if (r.success) {
+    (r.commands_sent || []).forEach(c => tlog('  > ' + c, 'cmd'));
+    (r.log || []).forEach(l => tlog(l, 'success'));
+    tlog('Configuração aplicada e salva na NVRAM.', 'success');
+    toast('Configuração aplicada com sucesso!', 'ok');
+  } else {
+    tlog('ERRO: ' + r.message, 'error');
+    toast(r.message, 'err');
+  }
+}
+
+// ───────────────────────────────────────────────────────────────
+//  Backup
+// ───────────────────────────────────────────────────────────────
+async function doBackup() {
+  if (!connected) {
+    toast('Conecte-se ao switch primeiro', 'warn');
+    return;
+  }
+
+  setBusy('backup', true);
+  tlog('Realizando backup...', 'info');
+  const r = await api('/api/backup', {});
+  setBusy('backup', false);
+
+  if (r.success) {
+    backupCount++;
+    syncStats();
+    tlog(`✓ Backup: ${r.filename} (${r.size} bytes)`, 'success');
+    toast('Backup salvo: ' + r.filename, 'ok');
+    addBackupItem(r);
+    tabTo('backups');
+  } else {
+    tlog('ERRO no backup: ' + r.message, 'error');
+    toast(r.message, 'err');
+  }
+}
+
+async function doSaveNvram() {
+  setBusy('save-nvram', true);
+  tlog('Salvando configuração na NVRAM...', 'info');
+  const r = await api('/api/save_nvram', {});
+  setBusy('save-nvram', false);
+  if (r.success) {
+    tlog('✓ ' + r.message, 'success');
+    toast(r.message, 'ok');
+  } else {
+    tlog('ERRO: ' + r.message, 'error');
+    toast(r.message, 'err');
+  }
+}
+
+function addBackupItem(r) {
+  const list = document.getElementById('backup-list');
+  if (list.querySelector('.placeholder')) list.innerHTML = '';
+  const d = document.createElement('div');
+  d.className = 'bk-item';
+  d.innerHTML = `
+    <div style="flex:1;">
+      <span style="font-size:16px;margin-right:6px;">💾</span><span class="bk-name">${esc(r.filename)}</span>
+      <span class="bk-meta">${r.size}B &nbsp;·&nbsp; ${r.timestamp}</span>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="downloadBackup('${esc(r.filename)}')" title="Baixar arquivo .txt">📥 BAIXAR</button>`;
+  list.appendChild(d);
+}
+
+async function downloadBackup(filename) {
+  try {
+    const url = `/api/backup/download?filename=${encodeURIComponent(filename)}&format=txt`;
+    
+    const response = await fetch(url);
+    if (!response.ok) {
+      toast(`Erro ao baixar arquivo: ${response.status}`, 'err');
+      tlog(`Erro HTTP ${response.status} ao baixar ${filename}`, 'error');
+      return;
+    }
+
+    const blob = await response.blob();
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+    
+    tlog(`✓ Download de ${filename} iniciado`, 'success');
+    toast(`Download iniciado: ${filename}`, 'ok');
+  } catch (err) {
+    toast(`Erro ao baixar: ${err.message}`, 'err');
+    tlog(`Erro ao baixar backup: ${err.message}`, 'error');
+  }
+}
+
+// ───────────────────────────────────────────────────────────────
+//  Validate
+// ───────────────────────────────────────────────────────────────
+async function doValidate() {
+  const hostname = g('hostname').trim();
+  const vlans    = getVlans();
+  tabTo('validation');
+  tlog('Iniciando validação...', 'info');
+
+  const r = await api('/api/validate', { hostname, vlans });
+  if (!r.success) { tlog('ERRO: ' + r.message, 'error'); toast(r.message, 'err'); return; }
+
+  renderValidation(r);
+  renderAlertBanner(r);
+
+  if (r.status === 'ok') {
+    tlog('Validação OK — configuração em conformidade', 'success');
+    toast('Configuração válida!', 'ok');
+  } else {
+    tlog(`⚠ ${r.divergence_count} divergência(s) detectada(s)!`, 'warn');
+    r.divergences.forEach(d =>
+      tlog(`  [${d.severity.toUpperCase()}] ${d.message}: esperado="${d.expected}" / encontrado="${d.found}"`, 'warn')
+    );
+    toast(`${r.divergence_count} divergência(s) detectada(s)!`, 'err');
+  }
+}
+
+function renderAlertBanner(r) {
+  const banner = document.getElementById('alert-banner');
+  if (r.divergences && r.divergences.length > 0) {
+    const criticals = r.divergences.filter(d => d.severity === 'critical');
+    const warnings  = r.divergences.filter(d => d.severity === 'warning');
+    let text = `⚠ ALERTA DE CONFIGURAÇÃO: ${r.divergence_count} divergência(s) detectada(s)`;
+    if (criticals.length) text += ` — ${criticals.length} crítica(s)`;
+    if (warnings.length)  text += `, ${warnings.length} aviso(s)`;
+    banner.textContent = text;
+    banner.style.display = 'block';
+  } else {
+    banner.style.display = 'none';
+  }
+}
+
+function renderValidation(r) {
+  const wrap = document.getElementById('val-results');
+  document.getElementById('val-placeholder').style.display = 'none';
+  wrap.style.display = 'block';
+  wrap.innerHTML = '';
+
+  // Banner
+  const banner = document.createElement('div');
+  banner.className = 'val-banner ' + (r.status === 'ok' ? 'val-ok' : 'val-fail');
+  banner.textContent = r.status === 'ok'
+    ? '✓  CONFIGURAÇÃO CONFORME — Nenhuma divergência detectada'
+    : `⚠  ATENÇÃO: ${r.divergence_count} DIVERGÊNCIA(S) DETECTADA(S)`;
+  wrap.appendChild(banner);
+
+  // Divergências
+  if (r.divergences?.length) {
+    const lbl = document.createElement('div');
+    lbl.className = 'sec-lbl red'; lbl.textContent = 'Divergências'; wrap.appendChild(lbl);
+    r.divergences.forEach(d => {
+      const el = document.createElement('div');
+      el.className = `div-card ${d.severity}`;
+      el.innerHTML = `
+        <div class="badge ${d.severity}">${d.severity}</div>
+        <div>
+          <div class="div-msg">${esc(d.message)}</div>
+          <div class="div-detail">Esperado: <span>${esc(d.expected)}</span>
+            &nbsp;|&nbsp; Encontrado: <span>${esc(d.found)}</span></div>
+        </div>`;
+      wrap.appendChild(el);
+    });
+  }
+
+  // Confirmações
+  if (r.confirmations?.length) {
+    const lbl2 = document.createElement('div');
+    lbl2.className = 'sec-lbl yellow'; lbl2.textContent = 'Confirmados'; wrap.appendChild(lbl2);
+    r.confirmations.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'conf-row';
+      el.innerHTML = `<span class="conf-icon">✓</span> ${esc(c.replace(/^✓\s*/, ''))}`;
+      wrap.appendChild(el);
+    });
+  }
+}
+
+// ───────────────────────────────────────────────────────────────
+//  Show VLANs
+// ───────────────────────────────────────────────────────────────
+async function doShowVlans() {
+  const r = await api('/api/vlans');
+  if (!r.success) { toast(r.message, 'err'); return; }
+
+  const tbody = document.getElementById('switch-vlan-body');
+  tbody.innerHTML = '';
+  r.vlans.forEach(v => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="vid">${v.id}</td><td class="vname">${esc(v.name)}</td><td class="vstatus">${v.status}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('switch-vlan-placeholder').style.display = 'none';
+  document.getElementById('switch-vlan-wrap').style.display = 'block';
+  tabTo('switchtab');
+  tlog(`${r.vlans.length} VLAN(s) encontrada(s) no switch`, 'success');
+}
+
+// ───────────────────────────────────────────────────────────────
+//  Helpers
+// ───────────────────────────────────────────────────────────────
+function g(id) { return document.getElementById(id)?.value || ''; }
+
+async function api(url, body = null) {
+  try {
+    const opts = body
+      ? { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) }
+      : { method:'GET' };
+    tlog(`API request: ${opts.method} ${url}`, 'info');
+    const r = await fetch(url, opts);
+
+    // Verificar status da resposta
+    if (!r.ok) {
+      const text = await r.text();
+      tlog(`Erro HTTP ${r.status} na API ${url}: ${text.substring(0, 200)}...`, 'error');
+      return { success: false, message: `Erro do servidor (${r.status})` };
+    }
+
+    // Verificar se a resposta é JSON
+    const contentType = r.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await r.text();
+      tlog(`Resposta não-JSON da API ${url} (status: ${r.status}): ${text.substring(0, 200)}...`, 'error');
+      if (text.includes('<!DOCTYPE html>') || text.includes('<html>')) {
+        return { success: false, message: 'Servidor não encontrado. Acesse via http://localhost:5000' };
+      }
+      return { success: false, message: `Erro do servidor: resposta não é JSON` };
+    }
+
+    const json = await r.json();
+    tlog(`API response: ${url} → success=${json.success}`, json.success ? 'success' : 'error');
+    return json;
+  } catch(e) {
+    tlog(`Erro de comunicação na API ${url}: ${e.message}`, 'error');
+    if (e.message.includes('Failed to fetch') || e.message.includes('NetworkError')) {
+      return { success: false, message: 'Servidor não encontrado. Acesse via http://localhost:5000' };
+    }
+    return { success: false, message: `Erro de comunicação: ${e.message}` };
+  }
+}
+
+function tabTo(id) {
+  const panel = document.getElementById('tab-' + id);
+  if (!panel) return;
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  panel.classList.add('active');
+  const idx = ['vlans','validation','terminal','backups','switchtab'].indexOf(id);
+  document.querySelectorAll('.tab-btn')[idx]?.classList.add('active');
+}
+
+function setBusy(which, on) {
+  const btn  = document.getElementById('btn-' + which);
+  const spin = document.getElementById('spin-' + which);
+  if (spin) spin.style.display = on ? 'block' : 'none';
+  if (btn)  btn.disabled = on;
+}
+</script>
+
+</body>
+</html>
