@@ -844,3 +844,19 @@ Device settings: cisco_ios 192.168.1.222:22
 2026-05-11 21:11:24,964 [INFO] Download de backup: backup_SW-CORE-01_20260511_211050.txt
 2026-05-11 21:11:24,987 [INFO] 127.0.0.1 - - [11/May/2026 21:11:24] "GET /api/backup/download?filename=backup_SW-CORE-01_20260511_211050.txt&format=txt HTTP/1.1" 200 -
 2026-05-11 21:11:38,972 [INFO] 127.0.0.1 - - [11/May/2026 21:11:38] "GET /api/vlans HTTP/1.1" 200 -
+2026-05-11 21:29:58,773 [WARNING] Tentativa de download de arquivo inexistente: backups\backup_SW-CORE-01_20260511_211050.txt
+2026-05-11 21:29:58,774 [INFO] 127.0.0.1 - - [11/May/2026 21:29:58] "[33mGET /api/backup/download?filename=backup_SW-CORE-01_20260511_211050.txt&format=txt HTTP/1.1[0m" 404 -
+2026-05-11 21:30:06,197 [INFO] Iniciando backup da configuração...
+2026-05-11 21:30:06,208 [WARNING] Erro ao executar 'show running-config': telnet connection closed
+2026-05-11 21:30:06,208 [ERROR] Erro ao obter running-config: telnet connection closed
+2026-05-11 21:30:06,209 [INFO] backup → Erro ao obter configuração: telnet connection closed
+2026-05-11 21:30:06,209 [INFO] 127.0.0.1 - - [11/May/2026 21:30:06] "POST /api/backup HTTP/1.1" 200 -
+2026-05-11 21:30:11,056 [INFO] 127.0.0.1 - - [11/May/2026 21:30:11] "[31m[1mGET /api/disconnect HTTP/1.1[0m" 405 -
+2026-05-11 21:30:15,093 [INFO] connect → Conectado ao switch SW-CORE-01 (192.168.1.222)
+2026-05-11 21:30:15,094 [INFO] 127.0.0.1 - - [11/May/2026 21:30:15] "POST /api/connect HTTP/1.1" 200 -
+2026-05-11 21:30:18,872 [INFO] Iniciando backup da configuração...
+2026-05-11 21:30:19,326 [INFO] Backup realizado com sucesso: backup_SW-CORE-01_20260511_213019.txt (1339 bytes)
+2026-05-11 21:30:19,327 [INFO] backup → backup_SW-CORE-01_20260511_213019.txt
+2026-05-11 21:30:19,327 [INFO] 127.0.0.1 - - [11/May/2026 21:30:19] "POST /api/backup HTTP/1.1" 200 -
+2026-05-11 21:30:24,078 [INFO] Download de backup: backup_SW-CORE-01_20260511_213019.txt
+2026-05-11 21:30:24,093 [INFO] 127.0.0.1 - - [11/May/2026 21:30:24] "GET /api/backup/download?filename=backup_SW-CORE-01_20260511_213019.txt&format=txt HTTP/1.1" 200 -
