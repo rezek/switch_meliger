@@ -20,7 +20,7 @@
   --yellow2:   #ffe033;
   --yellow-dim:#665800;
   --text:      #eeeeee;
-  --muted:     #777777;
+  --muted:     #b6b6b6;
   --dim:       #2a2a2a;
   --red:       #e03040;
   --green:     #22c55e;
@@ -76,7 +76,7 @@ header {
 }
 
 .site-title .word-switch { color: var(--yellow); }
-.site-title .word-meli   { color: var(--text); }
+.site-title .word-meli   { color: var(--yellow); }
 .site-title .word-ger    { color: var(--yellow); }
 
 /* Subtítulo / tagline */
@@ -633,7 +633,7 @@ hr.sep {
     <div class="card">
       <div class="card-title">Conexão</div>
 
-      <div class="field"><label>Host / IP</label>
+      <div class="field"><label>Host / Endereço IP</label>
         <input type="text" id="host" value="192.168.1.1" placeholder="192.168.1.1"></div>
       <div class="field"><label>Usuário</label>
         <input type="text" id="username" value="admin" placeholder="admin"></div>
@@ -641,8 +641,8 @@ hr.sep {
         <input type="password" id="password" value="cisco123" placeholder="••••••••"></div>
       <div class="field"><label>Tipo de Acesso</label>
         <select id="device_type">
-          <option value="cisco_ios">Cisco IOS (SSH)</option>
-          <option value="cisco_ios_telnet">Cisco IOS (Telnet)</option>
+          <option value="cisco_ios">SSH</option>
+          <option value="cisco_ios_telnet">Telnet</option>
         </select>
       </div>
       <label class="check-row">

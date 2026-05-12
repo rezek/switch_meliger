@@ -115,6 +115,7 @@ Ao gerar um backup, na aba BACKUPS, é exibida a opção para baixar o arquivo .
 ### 8. Ver VLANs
 
 Clique em **📋 VER VLANs** para exibir a tabela de VLANs atuais do switch.
+O comando usado é `show vlan brief`.
 
 ---
 

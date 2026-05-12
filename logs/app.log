@@ -763,3 +763,84 @@ Device settings: cisco_ios 192.168.1.222:22
 2026-05-10 22:40:44,726 [INFO]  * Debugger PIN: 142-754-560
 2026-05-10 22:40:46,133 [INFO] 127.0.0.1 - - [10/May/2026 22:40:46] "GET / HTTP/1.1" 200 -
 2026-05-10 22:40:47,520 [INFO] 127.0.0.1 - - [10/May/2026 22:40:47] "GET / HTTP/1.1" 200 -
+2026-05-11 12:46:53,582 [INFO] 127.0.0.1 - - [11/May/2026 12:46:53] "GET / HTTP/1.1" 200 -
+2026-05-11 12:49:18,106 [INFO] Switch MELIger iniciando em http://localhost:5000
+2026-05-11 12:49:19,423 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.96:5000
+2026-05-11 12:49:19,423 [INFO] [33mPress CTRL+C to quit[0m
+2026-05-11 12:49:19,425 [INFO]  * Restarting with stat
+2026-05-11 12:49:19,916 [INFO] Switch MELIger iniciando em http://localhost:5000
+2026-05-11 12:49:19,925 [WARNING]  * Debugger is active!
+2026-05-11 12:49:19,927 [INFO]  * Debugger PIN: 142-754-560
+2026-05-11 12:49:22,541 [INFO] 127.0.0.1 - - [11/May/2026 12:49:22] "GET / HTTP/1.1" 200 -
+2026-05-11 12:50:49,909 [INFO] Switch MELIger iniciando em http://localhost:5000
+2026-05-11 12:50:51,164 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.96:5000
+2026-05-11 12:50:51,164 [INFO] [33mPress CTRL+C to quit[0m
+2026-05-11 12:50:51,166 [INFO]  * Restarting with stat
+2026-05-11 12:50:51,641 [INFO] Switch MELIger iniciando em http://localhost:5000
+2026-05-11 12:50:51,655 [WARNING]  * Debugger is active!
+2026-05-11 12:50:51,657 [INFO]  * Debugger PIN: 142-754-560
+2026-05-11 12:50:53,433 [INFO] 127.0.0.1 - - [11/May/2026 12:50:53] "GET / HTTP/1.1" 200 -
+2026-05-11 12:57:48,724 [INFO] 127.0.0.1 - - [11/May/2026 12:57:48] "GET / HTTP/1.1" 200 -
+2026-05-11 12:57:52,602 [INFO] connect → Conectado ao switch SIMULADO (192.168.1.1)
+2026-05-11 12:57:52,603 [INFO] 127.0.0.1 - - [11/May/2026 12:57:52] "POST /api/connect HTTP/1.1" 200 -
+2026-05-11 12:57:58,727 [INFO] validate → status=divergent divergences=4
+2026-05-11 12:57:58,729 [INFO] 127.0.0.1 - - [11/May/2026 12:57:58] "POST /api/validate HTTP/1.1" 200 -
+2026-05-11 13:00:54,832 [INFO] 127.0.0.1 - - [11/May/2026 13:00:54] "[31m[1mGET /api/disconnect HTTP/1.1[0m" 405 -
+2026-05-11 13:01:49,886 [INFO] Switch MELIger iniciando em http://localhost:5000
+2026-05-11 13:01:51,141 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.96:5000
+2026-05-11 13:01:51,141 [INFO] [33mPress CTRL+C to quit[0m
+2026-05-11 13:01:51,142 [INFO]  * Restarting with stat
+2026-05-11 13:01:51,662 [INFO] Switch MELIger iniciando em http://localhost:5000
+2026-05-11 13:01:51,671 [WARNING]  * Debugger is active!
+2026-05-11 13:01:51,673 [INFO]  * Debugger PIN: 142-754-560
+2026-05-11 13:01:53,175 [INFO] 127.0.0.1 - - [11/May/2026 13:01:53] "GET / HTTP/1.1" 200 -
+2026-05-11 13:02:04,814 [INFO] connect → Conectado ao switch SW-CORE-01 (192.168.1.222)
+2026-05-11 13:02:04,814 [INFO] 127.0.0.1 - - [11/May/2026 13:02:04] "POST /api/connect HTTP/1.1" 200 -
+2026-05-11 13:02:09,706 [INFO] validate → status=ok divergences=0
+2026-05-11 13:02:09,706 [INFO] 127.0.0.1 - - [11/May/2026 13:02:09] "POST /api/validate HTTP/1.1" 200 -
+2026-05-11 13:02:23,848 [INFO] configure → success=True
+2026-05-11 13:02:23,849 [INFO] 127.0.0.1 - - [11/May/2026 13:02:23] "POST /api/configure HTTP/1.1" 200 -
+2026-05-11 13:02:31,101 [INFO] 127.0.0.1 - - [11/May/2026 13:02:31] "GET /api/vlans HTTP/1.1" 200 -
+2026-05-11 13:03:25,021 [INFO] 127.0.0.1 - - [11/May/2026 13:03:25] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2026-05-11 13:05:43,297 [INFO] Switch MELIger iniciando em http://localhost:5000
+2026-05-11 13:05:44,556 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.96:5000
+2026-05-11 13:05:44,557 [INFO] [33mPress CTRL+C to quit[0m
+2026-05-11 13:05:44,560 [INFO]  * Restarting with stat
+2026-05-11 13:05:45,042 [INFO] Switch MELIger iniciando em http://localhost:5000
+2026-05-11 13:05:45,053 [WARNING]  * Debugger is active!
+2026-05-11 13:05:45,054 [INFO]  * Debugger PIN: 142-754-560
+2026-05-11 13:05:46,808 [INFO] 127.0.0.1 - - [11/May/2026 13:05:46] "GET / HTTP/1.1" 200 -
+2026-05-11 13:06:13,447 [INFO] 127.0.0.1 - - [11/May/2026 13:06:13] "GET / HTTP/1.1" 200 -
+2026-05-11 13:06:13,494 [INFO] 127.0.0.1 - - [11/May/2026 13:06:13] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2026-05-11 21:02:26,607 [INFO] 127.0.0.1 - - [11/May/2026 21:02:26] "GET / HTTP/1.1" 200 -
+2026-05-11 21:04:31,906 [INFO] connect → Conectado ao switch SW_1 (192.168.1.222)
+2026-05-11 21:04:31,911 [INFO] 127.0.0.1 - - [11/May/2026 21:04:31] "POST /api/connect HTTP/1.1" 200 -
+2026-05-11 21:06:26,235 [INFO] validate → status=divergent divergences=4
+2026-05-11 21:06:26,237 [INFO] 127.0.0.1 - - [11/May/2026 21:06:26] "POST /api/validate HTTP/1.1" 200 -
+2026-05-11 21:08:01,726 [INFO] configure → success=True
+2026-05-11 21:08:01,728 [INFO] 127.0.0.1 - - [11/May/2026 21:08:01] "POST /api/configure HTTP/1.1" 200 -
+2026-05-11 21:08:39,129 [INFO] validate → status=ok divergences=0
+2026-05-11 21:08:39,130 [INFO] 127.0.0.1 - - [11/May/2026 21:08:39] "POST /api/validate HTTP/1.1" 200 -
+2026-05-11 21:09:18,761 [INFO] save_nvram → Configuração salva na NVRAM
+2026-05-11 21:09:18,762 [INFO] 127.0.0.1 - - [11/May/2026 21:09:18] "POST /api/save_nvram HTTP/1.1" 200 -
+2026-05-11 21:10:22,605 [INFO] save_nvram → Configuração salva na NVRAM
+2026-05-11 21:10:22,605 [INFO] 127.0.0.1 - - [11/May/2026 21:10:22] "POST /api/save_nvram HTTP/1.1" 200 -
+2026-05-11 21:10:50,447 [INFO] Iniciando backup da configuração...
+2026-05-11 21:10:50,717 [INFO] Backup realizado com sucesso: backup_SW-CORE-01_20260511_211050.txt (1352 bytes)
+2026-05-11 21:10:50,717 [INFO] backup → backup_SW-CORE-01_20260511_211050.txt
+2026-05-11 21:10:50,717 [INFO] 127.0.0.1 - - [11/May/2026 21:10:50] "POST /api/backup HTTP/1.1" 200 -
+2026-05-11 21:11:24,964 [INFO] Download de backup: backup_SW-CORE-01_20260511_211050.txt
+2026-05-11 21:11:24,987 [INFO] 127.0.0.1 - - [11/May/2026 21:11:24] "GET /api/backup/download?filename=backup_SW-CORE-01_20260511_211050.txt&format=txt HTTP/1.1" 200 -
+2026-05-11 21:11:38,972 [INFO] 127.0.0.1 - - [11/May/2026 21:11:38] "GET /api/vlans HTTP/1.1" 200 -
